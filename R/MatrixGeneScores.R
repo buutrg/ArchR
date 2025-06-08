@@ -420,7 +420,11 @@ addGeneScoreMatrix <- function(
       #Determine Sign for Distance relative to strand (Directionality determined based on dist from gene start)
       isMinus <- BiocGenerics::which(strand(geneRegionz) == "-")
       signDist <- sign(start(uniqueTiles)[subjectHits(tmp)] - start(GenomicRanges::resize(geneRegionz,1,"start"))[queryHits(tmp)])
-      signDist[isMinus] <- signDist[isMinus] * -1
+
+      # signDist[isMinus] <- signDist[isMinus] * -1
+      idx = which(queryHits(tmp) %in% isMinus)
+      signDist[idx] <- signDist[idx] * -1
+
 
       #Correct the orientation for the distance!
       x <- x * signDist
