@@ -354,7 +354,7 @@ getMatrixFromProject <- function(
   #ColData
   .logDiffTime("Organizing colData", t1 = tstart, verbose = verbose, logFile = logFile)
   cD <- lapply(seq_along(seL), function(x){
-    colData(seL[[x]])
+    colData(seL[[x]])[colnames(ArchRProj$cellColData)]
   }) %>% Reduce("rbind", .)
   
   #RowData
