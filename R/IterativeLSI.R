@@ -84,6 +84,7 @@ addIterativeLSI <- function(
       maxClusters = 6,
       n.start = 10
   ),
+  useExistingClusters = FALSE,
   firstSelection = "top",
   depthCol = "nFrags",
   varFeatures = 25000,
@@ -390,21 +391,26 @@ addIterativeLSI <- function(
   #########################
   # Identify LSI Clusters
   #########################
-  clusterDF <- .LSICluster(
-    outLSI = outLSI,
-    filterBias = filterBias,
-    cellNames = cellNames,
-    cellDepth = cellDepth,
-    dimsToUse = dimsToUse,
-    scaleDims = scaleDims,
-    corCutOff = corCutOff,
-    clusterParams = clusterParams,
-    j = j,
-    verbose = verbose,
-    tstart = tstart,
-    logFile = logFile
-  )
-  clusters <- clusterDF$clusters
+  if (!useExistingClusters) {
+    clusterDF <- .LSICluster(
+      outLSI = outLSI,
+      filterBias = filterBias,
+      cellNames = cellNames,
+      cellDepth = cellDepth,
+      dimsToUse = dimsToUse,
+      scaleDims = scaleDims,
+      corCutOff = corCutOff,
+      clusterParams = clusterParams,
+      j = j,
+      verbose = verbose,
+      tstart = tstart,
+      logFile = logFile
+    )
+    clusters <- clusterDF$clusters
+  } else {
+    clusters <- ArchRProj$Clusters
+    j = iterations
+  }
   nClust <- length(unique(clusters))
   .logDiffTime(sprintf("Identified %s Clusters", nClust), tstart, addHeader = FALSE, verbose = verbose, logFile = logFile)
   .logThis(clusterDF, paste0("clusterDF-",j), logFile = logFile)
