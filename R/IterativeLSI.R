@@ -944,7 +944,7 @@ addIterativeLSI <- function(
 
     #Time to compute clusters
     .logDiffTime("Identifying Clusters", tstart, addHeader = FALSE, verbose = verbose, logFile = logFile)
-     <- lapply(clusterParams, function(x){
+    parClust <- lapply(clusterParams, function(x){
       if(length(x) > 1){
         return(x[[j]])
       }else{
