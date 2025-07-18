@@ -407,13 +407,13 @@ addIterativeLSI <- function(
       logFile = logFile
     )
     clusters <- clusterDF$clusters
+    .logThis(clusterDF, paste0("clusterDF-",j), logFile = logFile)
   } else {
-    clusters <- ArchRProj$Clusters
-    j = iterations
+    clusterDF <- DataFrame(cellNames = ArchRProj$cellNames, clusters = ArchRProj$Clusters)
+    S4Vectors::metadata(clusterDF)$parClust <- NULL
   }
   nClust <- length(unique(clusters))
   .logDiffTime(sprintf("Identified %s Clusters", nClust), tstart, addHeader = FALSE, verbose = verbose, logFile = logFile)
-  .logThis(clusterDF, paste0("clusterDF-",j), logFile = logFile)
 
   #########################
   # Save LSI Iteration
@@ -944,7 +944,7 @@ addIterativeLSI <- function(
 
     #Time to compute clusters
     .logDiffTime("Identifying Clusters", tstart, addHeader = FALSE, verbose = verbose, logFile = logFile)
-    parClust <- lapply(clusterParams, function(x){
+     <- lapply(clusterParams, function(x){
       if(length(x) > 1){
         return(x[[j]])
       }else{
