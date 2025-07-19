@@ -508,7 +508,8 @@ loadArchRProject <- function(
     groupC <- length(ArchRProj@projectMetadata$GroupCoverages)
     for(z in seq_len(groupC)){
       zdata <- ArchRProj@projectMetadata$GroupCoverages[[z]]$coverageMetadata
-      zfiles <- gsub(outputDir, outputDirNew, zdata$File)
+      # zfiles <- gsub(outputDir, outputDirNew, zdata$File)
+      zfiles <- zdata$File
       ArchRProj@projectMetadata$GroupCoverages[[z]]$coverageMetadata$File <- zfiles
       stopifnot(all(file.exists(zfiles)))
     }
